@@ -10,5 +10,4 @@ const getToken = (payload) => {
 
 module.exports = {
   getToken,
-  JWT_SECRET,
 };
