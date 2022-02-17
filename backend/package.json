@@ -1,0 +1,39 @@
+{
+  "name": "express-mesto",
+  "version": "1.0.0",
+  "description": "Проект написан в учебных целях и является серверной частью проекта \"Место\", реализацию клиентской части проекта можно найти на этом же гитхаб аккаунте",
+  "main": "app.js",
+  "scripts": {
+    "lint": "npx eslint .",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JXRAKEKSER/express-mesto.git"
+  },
+  "keywords": [],
+  "author": "Dmitriy Gorbatenko, gorbatenko-2000@bk.ru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JXRAKEKSER/express-mesto/issues"
+  },
+  "homepage": "https://github.com/JXRAKEKSER/express-mesto#readme",
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "celebrate": "^15.0.1",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "express-winston": "^4.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.0",
+    "validator": "^13.7.0",
+    "winston": "^3.6.0"
+  }
+}
