@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(requestLogger);
 app.use(corsMiddleware);
 
-app.get('crash-text', () => {
+app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сейчас сервер упадет');
   }, 0);
