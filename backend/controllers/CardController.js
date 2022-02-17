@@ -66,13 +66,11 @@ const addLike = async (req, res, next) => {
       throw new NotFoundError('Такой карточки нет');
     }
     return res.status(200).json({
-      card: {
-        _id: updatedCard._id,
-        name: updatedCard.name,
-        link: updatedCard.link,
-        owner: updatedCard.owner,
-        likes: updatedCard.likes,
-      },
+      _id: updatedCard._id,
+      name: updatedCard.name,
+      link: updatedCard.link,
+      owner: updatedCard.owner,
+      likes: updatedCard.likes,
     });
   } catch (e) {
     console.log(e);
@@ -93,13 +91,11 @@ const deleteLike = async (req, res, next) => {
       throw new NotFoundError('Такой карточки нет');
     }
     return res.status(200).json({
-      card: {
-        _id: updatedCard._id,
-        name: updatedCard.name,
-        link: updatedCard.link,
-        owner: updatedCard.owner,
-        likes: updatedCard.likes,
-      },
+      _id: updatedCard._id,
+      name: updatedCard.name,
+      link: updatedCard.link,
+      owner: updatedCard.owner,
+      likes: updatedCard.likes,
     });
   } catch (e) {
     console.log(e);
