@@ -15,6 +15,12 @@ app.use(express.json());
 app.use(requestLogger);
 app.use(corsMiddleware);
 
+app.get('crash-text', () => {
+  setTimeout(() => {
+    throw new Error('Сейчас сервер упадет');
+  }, 0);
+});
+
 app.use('/users', userRouter);
 app.use('/cards', authMiddleware, cardRouter);
 app.use((req, res) => {
