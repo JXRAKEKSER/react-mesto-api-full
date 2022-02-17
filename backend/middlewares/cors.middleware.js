@@ -8,7 +8,7 @@ const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 const corsHandler = (req, res, next) => {
   const { method } = req;
   const { origin } = req.headers;
-  const requestHeaders = req.headers['Access-Control-Request-Headers'];
+  const requestHeaders = req.headers['access-control-request-headers'];
   const isAllowOrigin = accessAllowList.includes(origin);
   if (!isAllowOrigin) {
     return res.end();
