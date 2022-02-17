@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const { JWT_SECRET } = require('../config');
 
-const { JWT_SECRET = 'dev-secret-value' } = process.env;
 const getToken = (payload) => {
   if (!payload) {
     throw new Error('Пустое тело токена');

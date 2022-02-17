@@ -1,7 +1,8 @@
 const express = require('express');
-
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
+
+const { PORT } = require('./config');
 const authMiddleware = require('./middlewares/auth.middleware');
 const corsMiddleware = require('./middlewares/cors.middleware');
 const userRouter = require('./routes/user.router');
@@ -42,7 +43,7 @@ app.use((error, req, res, next) => { // eslint-disable-line no-unused-vars
 const start = async () => {
   try {
     await mongoose.connect('mongodb://localhost:27017/mestodb');
-    app.listen(5000, () => console.log('Server start'));
+    app.listen(PORT, () => console.log('Server start'));
   } catch (error) {
     console.log(error);
   }
