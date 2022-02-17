@@ -1,5 +1,6 @@
 const accessAllowList = [
   'localhost:3000',
+  'http://localhost:3000',
   'http://mesto.photocard.nomoredomains.work',
   'https://mesto.photocard.nomoredomains.work',
 ];
