@@ -1,5 +1,6 @@
 const NotFoundError = require('../errors/NotFoundError');
-
+const ForbidenError = require('../errors/ForbiddenError');
+const ValidationError = require('../errors/ValidationError');
 const Card = require('../models/Card');
 
 const createCard = async (req, res, next) => {
@@ -16,6 +17,9 @@ const createCard = async (req, res, next) => {
     });
   } catch (e) {
     console.log(e);
+    if (e.name === 'ValidationError') {
+      next(new ValidationError(e.message));
+    }
     next(e);
   }
 };
@@ -39,14 +43,15 @@ const getCards = async (req, res, next) => {
 
 const deleteCard = async (req, res, next) => {
   try {
-    const deletedCard = await Card.findOneAndRemove({ _id: req.params.cardId, owner: req.user._id }, {
-      new: true,
-      runValidators: true,
-    });
-    if (deletedCard) {
-      return res.status(200).json({ id: req.params.cardId });
+    const supposeToDeleteCard = await Card.findById({ _id: req.params.cardId });
+    if (!supposeToDeleteCard) {
+      throw new NotFoundError('Карточка с таким id не найдена');
     }
-    return res.status(404).json({ message: 'Карточка с таким id не найдена' });
+    if (supposeToDeleteCard.owner.toString() !== req.user._id) {
+      throw new ForbidenError('Запрещено удалять чужие ресурсы');
+    }
+    await Card.deleteOne({ _id: supposeToDeleteCard._id });
+    return res.status(200).json({ _id: req.params.cardId });
   } catch (e) {
     console.log(e);
     next(e);

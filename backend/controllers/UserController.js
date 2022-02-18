@@ -1,16 +1,26 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const { getToken } = require('../utils/authUtils');
+const NotFoundError = require('../errors/NotFoundError');
 
 const createUser = async (req, res, next) => {
   const {
     email,
     password,
+    avatar,
+    about,
+    name,
   } = req.body;
   try {
     await User.validateEmail(email);
     const hashPassword = await bcrypt.hash(password, 7);
-    const user = await User.create({ email, password: hashPassword });
+    const user = await User.create({
+      email,
+      password: hashPassword,
+      avatar,
+      about,
+      name,
+    });
     return res.status(201).json({ name: user.name, about: user.about, avatar: user.avatar });
   } catch (e) {
     next(e);
@@ -31,10 +41,10 @@ const getUsers = async (req, res, next) => {
 const getUserById = async (req, res, next) => {
   try {
     const user = await User.findOne({ _id: req.params.id });
-    if (user) {
-      return res.status(200).json({ name: user.name, about: user.about, avatar: user.avatar });
+    if (!user) {
+      throw new NotFoundError('Пользователь не найден');
     }
-    return res.status(404).json({ message: 'Пользователь не найден' });
+    return res.status(200).json({ name: user.name, about: user.about, avatar: user.avatar });
   } catch (e) {
     next(e);
   }
@@ -46,11 +56,12 @@ const updateUser = async (req, res, next) => {
       new: true,
       runValidators: true,
     });
-    if (updatedUser) {
-      return res.status(200).json({ name: updatedUser.name, about: updatedUser.about, avatar: updatedUser.avatar });
+    if (!updatedUser) {
+      throw new NotFoundError('Пользователь не найден');
     }
-    return res.status(404).json({ message: 'Пользователь не найден' });
+    return res.status(200).json({ name: updatedUser.name, about: updatedUser.about, avatar: updatedUser.avatar });
   } catch (e) {
+    console.log(e);
     next(e);
   }
 };
@@ -62,10 +73,10 @@ const updateAvatar = async (req, res, next) => {
       new: true,
       runValidators: true,
     });
-    if (updatedAvatar) {
-      return res.status(200).json({ avatar: updatedAvatar.avatar });
+    if (!updatedAvatar) {
+      throw new NotFoundError('Пользователь не найден');
     }
-    return res.status(404).json({ message: 'Пользователь не найден' });
+    return res.status(200).json({ avatar: updatedAvatar.avatar });
   } catch (e) {
     next(e);
   }
@@ -84,6 +95,9 @@ const login = async (req, res, next) => {
 const getMyProfile = async (req, res, next) => {
   try {
     const myProfile = await User.findOne({ _id: req.user._id });
+    if (!myProfile) {
+      throw new NotFoundError('Пользователь не найден');
+    }
     return res.status(200).json({
       _id: myProfile._id,
       name: myProfile.name,

@@ -3,5 +3,5 @@
   
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 Публичный адрес: 84.201.133.42
-username: crypto-duck
 https://mesto.photocard.nomoredomains.work/
+https://api.mesto.photocard.nomoredomains.work/

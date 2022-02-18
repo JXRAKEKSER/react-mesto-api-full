@@ -3,6 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcrypt');
 const ValidationError = require('../errors/ValidationError');
 const UnAuthorizedError = require('../errors/UnAuthorizedError');
+const ConflictingRequestError = require('../errors/ConflictingRequestError');
 
 const UserSchema = new Schema({
   name: {
@@ -20,7 +21,10 @@ const UserSchema = new Schema({
     type: String, required: true, select: false,
   },
   email: {
-    type: String, required: true,
+    type: String,
+    required: true,
+    unique: true,
+    // я выполняю валидацию для email в  методе схемы  'validateEmail'
   },
 }, { versionKey: false });
 
@@ -28,7 +32,7 @@ UserSchema.statics.validateEmail = async function (email) {
   if (validator.isEmail(email)) {
     const user = await this.findOne({ email });
     if (user) {
-      throw new ValidationError('Пользователь с таким именем уже существует');
+      throw new ConflictingRequestError('Пользователь с таким именем уже существует');
     }
   } else {
     throw new ValidationError('Некорректное значение поля \'email\'');

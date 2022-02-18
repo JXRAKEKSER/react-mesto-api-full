@@ -11,13 +11,7 @@ module.exports = (req, res, next) => {
       req.user = jwt.verify(token, JWT_SECRET);
     } catch (error) {
       console.log(error);
-      if (error.name === 'JsonWebTokenError' && error.message === 'invalid signature') {
-        error.statusCode = 401;
-        error.sendError = function () {
-          return res.status(this.statusCode).json({ message: 'Пользователь не авторизован' });
-        };
-      }
-      next(error);
+      next(new UnAuthorizedError('Пользователь не авторизован'));
     }
   }
   next();
